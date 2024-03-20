@@ -134,9 +134,7 @@ Tab 5. Some of the syntax rules of BNF
 | A \| B | A and B are tied options, only one can be chosen             |
 
 In ASML, a scenario is defined by means of the < Scenario > element, which consists of three sub-elements, < Mission>, < Resource>, and < Constraint>. There is and can only be one < Scenario > as the root element. In it, the mission description language performs hierarchical splitting to decompose complex tasks into easy-to-solve subtasks, which are processed separately. According to the hierarchy from high to low, it mainly includes scenario , missions,tasks and subtasks. Among them, < Mission > denotes scene mission, < Task > denotes task, and < SubTask > denotes sub-task. 
-$$
-<Scenario>::=<Mission><Resource><Constraint>
-$$
+
 Figure 1. XML Schema for the Scenario element
 
 <div align="center">
@@ -201,16 +199,16 @@ The values of the elements and attributes in < Task > are restricted by syntax r
 
 Tab 9 < Task > Syntax rules for child elements and attributes
 
-| Non-terminal        | **Symbol** | **Replacement**                                              |
-| ------------------- | ---------- | ------------------------------------------------------------ |
-| < Task >            | ::=        | < TaskProperty>< SubTask>+                                   |
-| < TaskProperty >    | ::=        | < TaskState>< TaskType>< TaskTime>< TaskCoord >  < TaskRelationship>< TaskRequirement > |
-| < TaskState_value > | ::=        | "Allocated"  \| "Unallocated" \| "PartiallyAllocated"        |
-| < TaskType_value >  | ::=        | < Logistics >  if < MissionType_value > = "Logistics  \|  < Agriculture > if < MissionType_value > = "Agriculture"  \|  < Rescue > if < MissionType_value > = "Rescue"  \|  < HighwayPatrol > if < MissionType_value > =  "HighwayPatrol" |
-| < Logistics >       | ::=        | "TansportTask"  \| "DistributeTask"                          |
-| < Agriculture >     | ::=        | "SprayingTask  " \| "InspectionTask"                         |
-| < Rescue >          | ::=        | "SearchTask"  \| "TansportTask" \| "CommunicationTask"       |
-| < HighwayPatrols >  | ::=        | "RoadTask"  \| "SlopeTask" \| "BridgeTask"                   |
+| Non-terminal       | **Symbol** | **Replacement**                                              |
+| ------------------ | ---------- | ------------------------------------------------------------ |
+| < Task >           | ::=        | < TaskProperty>< SubTask>+                                   |
+| < TaskProperty >   | ::=        | < TaskState>< TaskType>< TaskTime>< TaskCoord >  < TaskRelationship>< TaskRequirement > |
+| <TaskState_value>  | ::=        | "Allocated"  \| "Unallocated" \| "PartiallyAllocated"        |
+| < TaskType_value > | ::=        | < Logistics >  if < MissionType_value > = "Logistics  \|  < Agriculture > if < MissionType_value > = "Agriculture"  \|  < Rescue > if < MissionType_value > = "Rescue"  \|  < HighwayPatrol > if < MissionType_value > =  "HighwayPatrol" |
+| < Logistics >      | ::=        | "TansportTask"  \| "DistributeTask"                          |
+| < Agriculture >    | ::=        | "SprayingTask  " \| "InspectionTask"                         |
+| < Rescue >         | ::=        | "SearchTask"  \| "TansportTask" \| "CommunicationTask"       |
+| < HighwayPatrols > | ::=        | "RoadTask"  \| "SlopeTask" \| "BridgeTask"                   |
 
 Fig 3. XML Schema for the Task element
 
