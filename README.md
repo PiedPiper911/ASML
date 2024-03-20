@@ -45,21 +45,21 @@ Data types are used to define the nature of the data and the rules for taking va
 
 ### Word Classes and Keywords
 
-For the design of keywords, ASML expands lexical rules based on XML. XML's parts mainly include elements, tags, attributes and text content. Among them, elements constitute the basic structural unit of an XML document, consisting of start and end tags and content. Tags are surrounded by "<" and ">" and are used to define elements. Attributes can be added to elements to supplement additional descriptive information. Properties are in the opening tag, separated by spaces. Comments can provide explanatory text or remark information for XML documents. Comments start with "<!--" and end with "-->" and will not be processed by the parser. Tags such as "<A attribute = "value">Content</A>" are an example of ASML and are composed of multiple parts of speech. Use this example to introduce the corresponding lexical rules.
+For the design of keywords, ASML expands lexical rules based on XML. XML's parts mainly include elements, tags, attributes and text content. Among them, elements constitute the basic structural unit of an XML document, consisting of start and end tags and content. Tags are surrounded by "< " and ">" and are used to define elements. Attributes can be added to elements to supplement additional descriptive information. Properties are in the opening tag, separated by spaces. Comments can provide explanatory text or remark information for XML documents. Comments start with "< !--" and end with "-->" and will not be processed by the parser. Tags such as "< A attribute = "value">Content< /A>" are an example of ASML and are composed of multiple parts of speech. Use this example to introduce the corresponding lexical rules.
 
 Tab1. Name and meaning of the word class
 
 | Word Class | Name                  | Meaning                                                     |
 | :--------- | :-------------------- | :---------------------------------------------------------- |
-| <A>        | Start Tag             | Indicates the beginning of the description of the element   |
+| < A >      | Start Tag             | Indicates the beginning of the description of the element   |
 | A          | Tag Name              | Indicates the name of the element                           |
 | Content    | Tag Content           | Indicates the specific value of the element                 |
-| </A>       | End Tag               | Indicates the end of the description of the element         |
+| < /A >     | End Tag               | Indicates the end of the description of the element         |
 | Attribute  | Attribute Name        | Indicates the attribute name of the element                 |
 | =          | Attribute equals sign | Used to concatenate property names and property values      |
 | “”         | Quotation mark        | For wrapping attribute values                               |
 | Value      | Attribute Content     | Indicates the attribute value corresponding to an attribute |
-| <A/>       | Single Tag            | Indicates an element with no tag content                    |
+| < A/ >     | Single Tag            | Indicates an element with no tag content                    |
 
  The scenario tasks include the keywords Mission, Task, and SubTask, and each keyword has multiple sub-tags.
 
@@ -117,14 +117,14 @@ Tab 4. Constrained Keywords and Subtags
 
 ## Grammatical rule
 
-​      Based on the lexical rules in the previous section, this section describes the syntactic rules of ASML. The Backus-Naur Form (BNF,https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form) is used for the definition of syntactic rules for scene elements, their tasks, resources, and constraint sub-elements and attributes. BNF provides a more formalized system of syntactic description structure. As a specialized meta-language for defining languages, it is characterized by its concise syntax, clarity of expression, and ease of syntactic analysis and compilation. BNF can represent syntactic rules in a standardized way, and the syntax it presents does not depend on a specific context-free environment. Its basic structure is "<non-terminal>::= <replacement>", i.e., the left form is non-terminal, indicating that the content that has not been fully defined can be further defined and introduced by the replacement on the right. Introduction. Through XML syntax, elements, element attributes, element optionality and relationships between elements can be defined for ASML. Among them, XML Schema can be used to clarify and elaborate the structure and rules of XML documents and provide a way to define elements and their attributes to ensure the validity of document structure and content. In this paper, XML Schema diagrams are used to visualize the attributes and sub-element composition of each element in ASML. Some of the syntax rules of BNF adopted by ASML are shown in the table 5.
+​      Based on the lexical rules in the previous section, this section describes the syntactic rules of ASML. The Backus-Naur Form (BNF,https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form) is used for the definition of syntactic rules for scene elements, their tasks, resources, and constraint sub-elements and attributes. BNF provides a more formalized system of syntactic description structure. As a specialized meta-language for defining languages, it is characterized by its concise syntax, clarity of expression, and ease of syntactic analysis and compilation. BNF can represent syntactic rules in a standardized way, and the syntax it presents does not depend on a specific context-free environment. Its basic structure is "< non-terminal>::= < replacement>", i.e., the left form is non-terminal, indicating that the content that has not been fully defined can be further defined and introduced by the replacement on the right. Introduction. Through XML syntax, elements, element attributes, element optionality and relationships between elements can be defined for ASML. Among them, XML Schema can be used to clarify and elaborate the structure and rules of XML documents and provide a way to define elements and their attributes to ensure the validity of document structure and content. In this paper, XML Schema diagrams are used to visualize the attributes and sub-element composition of each element in ASML. Some of the syntax rules of BNF adopted by ASML are shown in the table 5.
 
 Tab 5. Some of the syntax rules of BNF
 
 | Symbol | Meanings                                                     |
 | ------ | ------------------------------------------------------------ |
 | ::=    | Symbol for "defined as"                                      |
-| <A>    | A is mandatory and must appear                               |
+| < A >  | A is mandatory and must appear                               |
 | “A”    | A is a term that does not need to be translated              |
 | ‘A’    | A is a term that does not need to be translated              |
 | [A]    | A is optional                                                |
@@ -133,13 +133,15 @@ Tab 5. Some of the syntax rules of BNF
 | A+     | A may occur one or more times                                |
 | A \| B | A and B are tied options, only one can be chosen             |
 
-In ASML, a scenario is defined by means of the <Scenario> element, which consists of three sub-elements, <Mission>, <Resource>, and <Constraint>. There is and can only be one <Scenario> as the root element. In it, the mission description language performs hierarchical splitting to decompose complex tasks into easy-to-solve subtasks, which are processed separately. According to the hierarchy from high to low, it mainly includes scenario , missions,tasks and subtasks. Among them, <Mission> denotes scene mission, <Task> denotes task, and <SubTask> denotes sub-task. 
+In ASML, a scenario is defined by means of the < Scenario > element, which consists of three sub-elements, < Mission>, < Resource>, and < Constraint>. There is and can only be one < Scenario > as the root element. In it, the mission description language performs hierarchical splitting to decompose complex tasks into easy-to-solve subtasks, which are processed separately. According to the hierarchy from high to low, it mainly includes scenario , missions,tasks and subtasks. Among them, < Mission > denotes scene mission, < Task > denotes task, and < SubTask > denotes sub-task. 
 $$
 <Scenario>::=<Mission><Resource><Constraint>
 $$
 Figure 1. XML Schema for the Scenario element
 
-![image-20240320172517471](.\image-20240320172517471.png)
+<div align="center">
+  <img src="https://github.com/PiedPiper911/ASML/blob/main/image-20240320172517471.png?raw=true">
+</div>
 
 
 
@@ -149,9 +151,9 @@ In the following, the keywords, semantics and the corresponding XML Schema struc
 
 #### Mission
 
-A mission is defined in ASML by means of the <Mission> element, whose defined XML Schema is shown in Figure 2. The <Mission> element contains basic information such as id, name, and describe, as well as the sub-elements scenario mission property <MissionProperty> and task collection <Task>, where the <Task> element can take one or more. The <MissionProperty> element contains the sub-elements <MissionState>, <MissionType>, <MissionTime>, <MissionCoord>, <MissionRelationship>, and <MissionRequirement>, and the there is one and only one of each sub-element. The keywords in the <Mission> element are shown in Table 6.
+A mission is defined in ASML by means of the < Mission > element, whose defined XML Schema is shown in Figure 2. The < Mission > element contains basic information such as id, name, and describe, as well as the sub-elements scenario mission property < MissionProperty > and task collection < Task>, where the < Task > element can take one or more. The < MissionProperty > element contains the sub-elements < MissionState>, < MissionType>, < MissionTime>, < MissionCoord>, < MissionRelationship>, and < MissionRequirement>, and the there is one and only one of each sub-element. The keywords in the < Mission > element are shown in Table 6.
 
-Tab 6. <Mission>Keyword list in elements
+Tab 6. < Mission>Keyword list in elements
 
 | Keywords        | Quantities | Meaning                                    |
 | --------------- | ---------- | ------------------------------------------ |
@@ -161,143 +163,166 @@ Tab 6. <Mission>Keyword list in elements
 | MissionProperty | 1          | Properties of scenario missions            |
 | Task            | 1 or more  | Tasks in missions                          |
 
-The values of the elements and attributes in <Mission> are restricted by syntax rules. In particular, <MissionState_value> is of type string and is restricted to one of "Allocated", "Unallocated" or "PartiallyAllocated". The <MissionType_value> is of type string and is restricted to one of "Logistics", "Agriculture", "Rescue", and "HighwayPatrol". The <MissionTime> element includes the <StartTime>, <EndTime>, and <EstimatedTime> child elements. The <MissionCoord> element contains the <EnterPoint> and <LeavePoint> child elements. The <MissionRelationship> takes the value of one of <Sequence>, <CoBegin>, <Fork>, or <Join>. <MissionRequirement> contains one or more <ResourceType> child elements.
+The values of the elements and attributes in < Mission > are restricted by syntax rules. In particular, < MissionState_value > is of type string and is restricted to one of "Allocated", "Unallocated" or "PartiallyAllocated". The < MissionType_value > is of type string and is restricted to one of "Logistics", "Agriculture", "Rescue", and "HighwayPatrol". The < MissionTime > element includes the < StartTime>, < EndTime>, and < EstimatedTime > child elements. The < MissionCoord > element contains the < EnterPoint > and < LeavePoint > child elements. The < MissionRelationship > takes the value of one of < Sequence>, < CoBegin>, < Fork>, or < Join>. < MissionRequirement > contains one or more < ResourceType > child elements.
 
-Table 7 lists the syntax rules for the major elements and attributes of <Mission>.
+Table 7 lists the syntax rules for the major elements and attributes of < Mission>.
 
-Tab 7.  Syntax rules for <Mission> child elements and attributes
+Tab 7.  Syntax rules for < Mission > child elements and attributes
 
-| Non-terminal          | Symbol | Replacement                                                  |
-| --------------------- | ------ | ------------------------------------------------------------ |
-| <Mission>             | ::=    | <MissionProperty><Task>+                                     |
-| <MissionProperty>     | ::=    | <MissionState><MissionType><MissionTime><MissionCoord>  <MissionRelationship><MissionRequirement> |
-| <MissionState_value>  | ::=    | "Allocated" \|  "Unallocated" \| "PartiallyAllocated"        |
-| <MissionType_value>   | ::=    | "Logistics" \|  "Agriculture" \| "Rescue" \| "HighwayPatrol" |
-| <MissionTime>         | ::=    | <StartTime><EndTime><EstimatedTime>                          |
-| <MissionCoord>        | ::=    | <EnterPoint><LeavePoint>                                     |
-| <MissionRelationship> | ::=    | <Sequence> \| <CoBegin> \|  <Fork> \| <Join>                 |
-| <MissionRequirement>  | ::=    | <ResourceType>+                                              |
+| Non-terminal            | Symbol | Replacement                                                  |
+| ----------------------- | ------ | ------------------------------------------------------------ |
+| < Mission >             | ::=    | < MissionProperty>< Task>+                                   |
+| < MissionProperty >     | ::=    | < MissionState>< MissionType>< MissionTime>< MissionCoord >  < MissionRelationship>< MissionRequirement > |
+| < MissionState_value >  | ::=    | "Allocated" \|  "Unallocated" \| "PartiallyAllocated"        |
+| < MissionType_value >   | ::=    | "Logistics" \|  "Agriculture" \| "Rescue" \| "HighwayPatrol" |
+| < MissionTime >         | ::=    | < StartTime>< EndTime>< EstimatedTime >                      |
+| < MissionCoord >        | ::=    | < EnterPoint>< LeavePoint >                                  |
+| < MissionRelationship > | ::=    | < Sequence > \| < CoBegin > \|  < Fork > \| < Join >         |
+| < MissionRequirement >  | ::=    | < ResourceType>+                                             |
 
 Fig 2. XML Schema for the Mission element
 
-![image-20240320194406066](.\image-20240320194406066.png)
+<div align="center">
+  <img src="https://github.com/PiedPiper911/ASML/blob/main/image-20240320194406066.png?raw=true">
+</div>
 
 #### Task
 
-A task is defined in ASML by means of the <Task> element, whose defined XML Schema is shown in Figure 3. The <Task> element contains basic information such as id, name, and describe, as well as the sub-elements <TaskProperty> and the collection of subtasks <SubTask>, where the <SubTask> element can take one or more. The <TaskProperty> element contains the sub-elements <TaskState>, <TaskType>, <TaskTime>, <TaskCoord>, <TaskRelationship>, and <TaskRequirement>, and there is one and only one of each of these sub-elements. According to the definition of the meta-model, the attributes in <Task> are the same as those in <Mission>, only the sub-elements are different, as shown in Table 8.
+A task is defined in ASML by means of the < Task > element, whose defined XML Schema is shown in Figure 3. The < Task > element contains basic information such as id, name, and describe, as well as the sub-elements < TaskProperty > and the collection of subtasks < SubTask>, where the < SubTask > element can take one or more. The < TaskProperty > element contains the sub-elements < TaskState>, < TaskType>, < TaskTime>, < TaskCoord>, < TaskRelationship>, and < TaskRequirement>, and there is one and only one of each of these sub-elements. According to the definition of the meta-model, the attributes in < Task > are the same as those in < Mission>, only the sub-elements are different, as shown in Table 8.
 
-Tab 8.  Table of child elements in the <Task> element
+Tab 8.  Table of child elements in the < Task > element
 
 | Sub-element  | Quantities | Meaning                |
 | ------------ | ---------- | ---------------------- |
 | TaskProperty | 1          | Properties of the task |
 | SubTask      | 1 or more  | Subtasks within a task |
 
-The values of the elements and attributes in <Task> are restricted by syntax rules. According to the metamodel's definition of the TaskType relationship, the type of a child task is restricted by the type of the parent task. When <MissionType_value> is "Logistics", <TaskType_value> can be "TansportTask" or "DistributeTask"; when <MissionType_value> is "Agriculture", <TaskType_value> can be "TansportTask" or "DistributeTask". value> can be "SprayingTask" or "InspectionTask"; when <MissionType_value> is "Rescue", <TaskType_value> can be "SearchTask", "TansportTask" or "CommunicationTask". CommunicationTask"; when <MissionType_value> is "HighwayPatrol", <TaskType_value> can be "RoadTask", "SlopeTask" or "BridgeTask". In addition, the rules for <TaskState>, <TaskTime>, <TaskCoord>, <TaskRelationship>, and <TaskRequirement> are the same as the syntax rules in <Mission>, so we won't go into detail here. 
+The values of the elements and attributes in < Task > are restricted by syntax rules. According to the metamodel's definition of the TaskType relationship, the type of a child task is restricted by the type of the parent task. When < MissionType_value > is "Logistics", < TaskType_value > can be "TansportTask" or "DistributeTask"; when < MissionType_value > is "Agriculture", < TaskType_value > can be "TansportTask" or "DistributeTask". value > can be "SprayingTask" or "InspectionTask"; when < MissionType_value > is "Rescue", < TaskType_value > can be "SearchTask", "TansportTask" or "CommunicationTask". CommunicationTask"; when < MissionType_value > is "HighwayPatrol", < TaskType_value > can be "RoadTask", "SlopeTask" or "BridgeTask". In addition, the rules for < TaskState>, < TaskTime>, < TaskCoord>, < TaskRelationship>, and < TaskRequirement > are the same as the syntax rules in < Mission>, so we won't go into detail here. 
 
-Tab 9 <Task> Syntax rules for child elements and attributes
+Tab 9 < Task > Syntax rules for child elements and attributes
 
-| Non-terminal      | **Symbol** | **Replacement**                                              |
-| ----------------- | ---------- | ------------------------------------------------------------ |
-| <Task>            | ::=        | <TaskProperty><SubTask>+                                     |
-| <TaskProperty>    | ::=        | <TaskState><TaskType><TaskTime><TaskCoord>  <TaskRelationship><TaskRequirement> |
-| <TaskState_value> | ::=        | "Allocated"  \| "Unallocated" \| "PartiallyAllocated"        |
-| <TaskType_value>  | ::=        | <Logistics>  if <MissionType_value> = "Logistics  \|  <Agriculture> if <MissionType_value> = "Agriculture"  \|  <Rescue> if <MissionType_value> = "Rescue"  \|  <HighwayPatrol> if <MissionType_value> =  "HighwayPatrol" |
-| <Logistics>       | ::=        | "TansportTask"  \| "DistributeTask"                          |
-| <Agriculture>     | ::=        | "SprayingTask  " \| "InspectionTask"                         |
-| <Rescue>          | ::=        | "SearchTask"  \| "TansportTask" \| "CommunicationTask"       |
-| <HighwayPatrols>  | ::=        | "RoadTask"  \| "SlopeTask" \| "BridgeTask"                   |
+| Non-terminal        | **Symbol** | **Replacement**                                              |
+| ------------------- | ---------- | ------------------------------------------------------------ |
+| < Task >            | ::=        | < TaskProperty>< SubTask>+                                   |
+| < TaskProperty >    | ::=        | < TaskState>< TaskType>< TaskTime>< TaskCoord >  < TaskRelationship>< TaskRequirement > |
+| < TaskState_value > | ::=        | "Allocated"  \| "Unallocated" \| "PartiallyAllocated"        |
+| < TaskType_value >  | ::=        | < Logistics >  if < MissionType_value > = "Logistics  \|  < Agriculture > if < MissionType_value > = "Agriculture"  \|  < Rescue > if < MissionType_value > = "Rescue"  \|  < HighwayPatrol > if < MissionType_value > =  "HighwayPatrol" |
+| < Logistics >       | ::=        | "TansportTask"  \| "DistributeTask"                          |
+| < Agriculture >     | ::=        | "SprayingTask  " \| "InspectionTask"                         |
+| < Rescue >          | ::=        | "SearchTask"  \| "TansportTask" \| "CommunicationTask"       |
+| < HighwayPatrols >  | ::=        | "RoadTask"  \| "SlopeTask" \| "BridgeTask"                   |
 
-Fig 3. XML Schema for the Mission element
+Fig 3. XML Schema for the Task element
 
-![image-20240320201405678](.\image-20240320201405678.png)
+<div align="center">
+  <img src="https://github.com/PiedPiper911/ASML/blob/main/image-20240320201405678.png?raw=true">
+</div>
 
 ### UAV Resource Capability Syntax
 
 #### Resource
 
-A resource is defined in ASML through <Resource>. A <Resource> contains sub-elements <Info>, <State>, <Domain>, <Performance>, <Service>, and <Log>. The XML schema for the Resource element is shown in Figure 4.
+A resource is defined in ASML through < Resource>. A < Resource > contains sub-elements < Info>, < State>, < Domain>, < Performance>, < Service>, and < Log>. The XML schema for the Resource element is shown in Figure 4.
 
 Figure 4. XML Schema for Resource elements
 
-![image-20240320202028819](.\image-20240320202028819.png)
+<div align="center">
+  <img src="https://github.com/PiedPiper911/ASML/blob/main/image-20240320202028819.png?raw=true">
+</div>
 
 #### Performance
 
-The performance information of a resource is defined in ASML through the <Performance>, which demonstrates different capabilities depending on the UAV resource, and which has one or more sub-elements, as shown in Figure 5. The syntax of each of these tags to take values is mainly in the form of strings or floating point numbers and will not be repeated here.
+The performance information of a resource is defined in ASML through the < Performance>, which demonstrates different capabilities depending on the UAV resource, and which has one or more sub-elements, as shown in Figure 5. The syntax of each of these tags to take values is mainly in the form of strings or floating point numbers and will not be repeated here.
 
 Fig 5. XML structure diagram for resource performance
 
-![image-20240320202331886](C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20240320202331886.png)
+<div align="center">
+  <img src="https://github.com/PiedPiper911/ASML/blob/main/image-20240320202331886.png?raw=true">
+</div>
 
 ###  Environmentally Constrained Syntax
 
 #### Constraint
 
-A constraint is defined in ASML through <Constraint>. Its sub-elements include path points <WayPoints>, <Obstacle>, <NoFlyArea>, <SafeDistance>, and <Weather>. The XML Schema composed of its sub-elements is shown in Figure 6.
+A constraint is defined in ASML through < Constraint>. Its sub-elements include path points < WayPoints>, < Obstacle>, < NoFlyArea>, < SafeDistance>, and < Weather>. The XML Schema composed of its sub-elements is shown in Figure 6.
 
 Figure 6. XML Schema for Constraint Elements
 
-![image-20240320202750422](.\image-20240320202750422.png)
+<div align="center">
+  <img src="https://github.com/PiedPiper911/ASML/blob/main/image-20240320202750422.png?raw=true">
+</div>
+
+
 
 #### Waypoints
 
-The <Waypoints> contains one or more child elements <Waypoint>, as shown in Figure 7. The <Waypoint> element includes the attributes id, longitude, latitude, and altitude, and has a unique child element, <Connectivity>, which serves as a representation of connectivity with other Waypoints, and takes the value of a string of 0s and 1s, and the length of the number of child elements of <Waypoints>. The syntax rules for the <Waypoints> element and attributes are defined in Table 10.
+The < Waypoints > contains one or more child elements < Waypoint>, as shown in Figure 7. The < Waypoint > element includes the attributes id, longitude, latitude, and altitude, and has a unique child element, < Connectivity>, which serves as a representation of connectivity with other Waypoints, and takes the value of a string of 0s and 1s, and the length of the number of child elements of < Waypoints>. The syntax rules for the < Waypoints > element and attributes are defined in Table 10.
 
-Tab 10 . Syntax rules for <WayPoints> child elements and attributes
+Tab 10 . Syntax rules for < WayPoints > child elements and attributes
 
-| Non-terminal         | **Symbol** | Replacement                                       |
-| -------------------- | ---------- | ------------------------------------------------- |
-| <WayPoints>          | ::=        | <WayPoint>+                                       |
-| <Waypoint>           | ::=        | <Connectivity>                                    |
-| <Waypoint_attr>      | ::=        | <WayPoint_id><Coord_attr>                         |
-| <Connectivity>       | ::=        | <Connectivity_value> (","  <Connectivity_value>)* |
-| <Connectivity_value> | ::=        | "0" \| "1"                                        |
+| Non-terminal           | **Symbol** | Replacement                                          |
+| ---------------------- | ---------- | ---------------------------------------------------- |
+| < WayPoints >          | ::=        | < WayPoint>+                                         |
+| < Waypoint >           | ::=        | < Connectivity >                                     |
+| < Waypoint_attr >      | ::=        | < WayPoint_id>< Coord_attr >                         |
+| < Connectivity >       | ::=        | < Connectivity_value > (","  < Connectivity_value>)* |
+| < Connectivity_value > | ::=        | "0" \| "1"                                           |
 
 Figure 7 XML Schema for the WayPoints element
 
-![image-20240320203246363](.\image-20240320203246363.png)
+<div align="center">
+  <img src="https://github.com/PiedPiper911/ASML/blob/main/image-20240320203246363.png?raw=true">
+</div>
 
 #### Obstacle
 
-The <Obstacle> contains the attributes id, name, and the coordinates longitude and latitude in Coord, and the child elements <minAlt> and <maxAlt>, as shown in Figure 8. Obstacles describes objects in terms of height that the UAV may not penetrate or touch. Where <minAlt> and <maxAlt> are the same as the <Coord_attr> rule defined earlier, taking the value of double precision floating point number double.
+The < Obstacle > contains the attributes id, name, and the coordinates longitude and latitude in Coord, and the child elements < minAlt > and < maxAlt>, as shown in Figure 8. Obstacles describes objects in terms of height that the UAV may not penetrate or touch. Where < minAlt > and < maxAlt > are the same as the < Coord_attr > rule defined earlier, taking the value of double precision floating point number double.
 
 Figure 8 XML Schema for the Obstacle element.
 
-![image-20240320203409599](.\image-20240320203409599.png)
+<div align="center">
+  <img src="https://github.com/PiedPiper911/ASML/blob/main/image-20240320203409599.png?raw=true">
+</div>
+
+
 
 #### NoFlyArea
 
-The no-fly area is represented by the <NoFlyArea> element, whose sub-element composition is shown in Figure 9, with <Circle>, <Rectangle>, and <Polygon> as its optional sub-elements. The sub-elements of polygon <Coords> have at least three coordinates, indicating that it consists of three and more coordinate points. The syntax rules for each child element and attribute of <NoFlyArea> are shown in Table 11.
+The no-fly area is represented by the < NoFlyArea > element, whose sub-element composition is shown in Figure 9, with < Circle>, < Rectangle>, and < Polygon > as its optional sub-elements. The sub-elements of polygon < Coords > have at least three coordinates, indicating that it consists of three and more coordinate points. The syntax rules for each child element and attribute of < NoFlyArea > are shown in Table 11.
 
-Table 11. Syntax rules for <NoFlyArea> child elements and attributes
+Table 11. Syntax rules for < NoFlyArea > child elements and attributes
 
-| non-terminal | symbol | replacement                          |
-| ------------ | ------ | ------------------------------------ |
-| <Rectangle>  | ::=    | <Center> (<NE> <SW>) \|  (<NW> <SE>) |
-| <Circle>     | ::=    | <Center><Radius>                     |
-| <Polygon>    | ::=    | <Coords>                             |
-| <Coords>     | ::=    | (<Coord><Coord>)<Coord>+             |
+| non-terminal  | symbol | replacement                                  |
+| ------------- | ------ | -------------------------------------------- |
+| < Rectangle > | ::=    | < Center > (< NE > < SW>) \|  (< NW > < SE>) |
+| < Circle >    | ::=    | < Center>< Radius >                          |
+| < Polygon >   | ::=    | < Coords >                                   |
+| < Coords >    | ::=    | (< Coord>< Coord>)< Coord>+                  |
 
 Figure 9 XML Schema for the NoFlyArea element
 
-![image-20240320203948652](.\image-20240320203948652.png)
+<div align="center">
+  <img src="https://github.com/PiedPiper911/ASML/blob/main/image-20240320203948652.png?raw=true">
+</div>
 
 **SafeDistance**
 
-The safe distance is represented by the <SafeDistance> element, containing the attributes id, name, and the sub-elements minimum safe distance <minDis>, minimum and maximum flight altitude <minAlt>, and <maxAlt>. <minAlt> and <maxAlt> are defined with the same rules as in <Obstacle>, while <minDis> takes the value of a string. The structure of its elements is shown in Figure 10.
+The safe distance is represented by the < SafeDistance > element, containing the attributes id, name, and the sub-elements minimum safe distance < minDis>, minimum and maximum flight altitude < minAlt>, and < maxAlt>. < minAlt > and < maxAlt > are defined with the same rules as in < Obstacle>, while < minDis > takes the value of a string. The structure of its elements is shown in Figure 10.
 
 Figure 10.XML Schema of the SafeDistance element
-
-![image-20240320204331478](.\image-20240320204331478.png)
+<div align="center">
+  <img src="https://github.com/PiedPiper911/ASML/blob/main/image-20240320204331478.png?raw=true">
+</div>
 
 #### Weather
 
-Weather is represented through the <Weather> element with attributes id, name, describe, and type. it contains sub-elements Duration <Duration>, Temperature Range <Temperature>, Covered Area <CoveredArea>, and Wind <Wind>. The value of <Durtaion> needs to be restricted to the ISO8601 date representation, covering the start and end time <DateTime>, connected by the "~" symbol. The value of <Temperature> is in the form of "20℃~30℃", indicating the temperature range. <CoveredArea> is the same as <NoFlyArea>. <Wind> contains sub-elements <WindLevel> and <WindSpeed> with integer and string values respectively. The XML schema for the <Weather> element is shown in Figure 11.
+Weather is represented through the < Weather > element with attributes id, name, describe, and type. it contains sub-elements Duration < Duration>, Temperature Range < Temperature>, Covered Area < CoveredArea>, and Wind < Wind>. The value of < Durtaion > needs to be restricted to the ISO8601 date representation, covering the start and end time < DateTime>, connected by the "~" symbol. The value of < Temperature > is in the form of "20℃~30℃", indicating the temperature range. < CoveredArea > is the same as < NoFlyArea>. < Wind > contains sub-elements < WindLevel > and < WindSpeed > with integer and string values respectively. The XML schema for the < Weather > element is shown in Figure 11.
 
 Figure 11.XML Schema for the Weather Element
 
-![image-20240320204426904](.\image-20240320204426904.png)
+<div align="center">
+  <img src="https://github.com/PiedPiper911/ASML/blob/main/image-20240320204426904.png?raw=true">
+</div>
 
 ## Conclusion
 
