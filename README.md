@@ -135,7 +135,7 @@ Tab 5. Some of the syntax rules of BNF
 
 In ASML, a scenario is defined by means of the < Scenario > element, which consists of three sub-elements, < Mission>, < Resource>, and < Constraint>. There is and can only be one < Scenario > as the root element. In it, the mission description language performs hierarchical splitting to decompose complex tasks into easy-to-solve subtasks, which are processed separately. According to the hierarchy from high to low, it mainly includes scenario , missions,tasks and subtasks. Among them, < Mission > denotes scene mission, < Task > denotes task, and < SubTask > denotes sub-task. 
 
-Figure 1. XML Schema for the Scenario element
+Fig 1. XML Schema for the Scenario element
 
 <div align="center">
   <img src="https://github.com/PiedPiper911/ASML/blob/main/image-20240320172517471.png?raw=true">
@@ -149,7 +149,7 @@ In the following, the keywords, semantics and the corresponding XML Schema struc
 
 #### Mission
 
-A mission is defined in ASML by means of the < Mission > element, whose defined XML Schema is shown in Figure 2. The < Mission > element contains basic information such as id, name, and describe, as well as the sub-elements scenario mission property < MissionProperty > and task collection < Task>, where the < Task > element can take one or more. The < MissionProperty > element contains the sub-elements < MissionState>, < MissionType>, < MissionTime>, < MissionCoord>, < MissionRelationship>, and < MissionRequirement>, and the there is one and only one of each sub-element. The keywords in the < Mission > element are shown in Table 6.
+A mission is defined in ASML by means of the < Mission > element, whose defined XML Schema is shown in Fig 2. The < Mission > element contains basic information such as id, name, and describe, as well as the sub-elements scenario mission property < MissionProperty > and task collection < Task>, where the < Task > element can take one or more. The < MissionProperty > element contains the sub-elements < MissionState>, < MissionType>, < MissionTime>, < MissionCoord>, < MissionRelationship>, and < MissionRequirement>, and the there is one and only one of each sub-element. The keywords in the < Mission > element are shown in Table 6.
 
 Tab 6. < Mission>Keyword list in elements
 
@@ -186,7 +186,7 @@ Fig 2. XML Schema for the Mission element
 
 #### Task
 
-A task is defined in ASML by means of the < Task > element, whose defined XML Schema is shown in Figure 3. The < Task > element contains basic information such as id, name, and describe, as well as the sub-elements < TaskProperty > and the collection of subtasks < SubTask>, where the < SubTask > element can take one or more. The < TaskProperty > element contains the sub-elements < TaskState>, < TaskType>, < TaskTime>, < TaskCoord>, < TaskRelationship>, and < TaskRequirement>, and there is one and only one of each of these sub-elements. According to the definition of the meta-model, the attributes in < Task > are the same as those in < Mission>, only the sub-elements are different, as shown in Table 8.
+A task is defined in ASML by means of the < Task > element, whose defined XML Schema is shown in Fig 3. The < Task > element contains basic information such as id, name, and describe, as well as the sub-elements < TaskProperty > and the collection of subtasks < SubTask>, where the < SubTask > element can take one or more. The < TaskProperty > element contains the sub-elements < TaskState>, < TaskType>, < TaskTime>, < TaskCoord>, < TaskRelationship>, and < TaskRequirement>, and there is one and only one of each of these sub-elements. According to the definition of the meta-model, the attributes in < Task > are the same as those in < Mission>, only the sub-elements are different, as shown in Table 8.
 
 Tab 8.  Table of child elements in the < Task > element
 
@@ -197,7 +197,7 @@ Tab 8.  Table of child elements in the < Task > element
 
 The values of the elements and attributes in < Task > are restricted by syntax rules. According to the metamodel's definition of the TaskType relationship, the type of a child task is restricted by the type of the parent task. When < MissionType_value > is "Logistics", < TaskType_value > can be "TansportTask" or "DistributeTask"; when < MissionType_value > is "Agriculture", < TaskType_value > can be "TansportTask" or "DistributeTask". value > can be "SprayingTask" or "InspectionTask"; when < MissionType_value > is "Rescue", < TaskType_value > can be "SearchTask", "TansportTask" or "CommunicationTask". CommunicationTask"; when < MissionType_value > is "HighwayPatrol", < TaskType_value > can be "RoadTask", "SlopeTask" or "BridgeTask". In addition, the rules for < TaskState>, < TaskTime>, < TaskCoord>, < TaskRelationship>, and < TaskRequirement > are the same as the syntax rules in < Mission>, so we won't go into detail here. 
 
-Tab 9 < Task > Syntax rules for child elements and attributes
+Tab 9. < Task > Syntax rules for child elements and attributes
 
 | Non-terminal       | **Symbol** | **Replacement**                                              |
 | ------------------ | ---------- | ------------------------------------------------------------ |
@@ -216,13 +216,62 @@ Fig 3. XML Schema for the Task element
   <img src="https://github.com/PiedPiper911/ASML/blob/main/image-20240320201405678.png?raw=true">
 </div>
 
+
+
+#### SubTask
+
+In ASML, a subtask is defined through the < SubTask > element, and the XML Schema defined is shown in Fig 4. The < SubTask > element contains basic information such as id, name and describe, as well as the sub-element subtask attribute < SubTaskProperty >. Similar to < MissionProperty > and < TaskProperty >, the < SubTaskProperty > element contains the sub-elements < SubTaskState >, < SubTaskType >, < SubTaskTime >, < SubTaskCoord > and < SubTaskRequirement >. According to the definition of the metamodel, subtasks serve as terminal tasks, and additional < SubTaskTarget> and < SubTaskBehavoir > are included in the subelements. The attributes in < SubTask > are consistent with those of < Mission > and < Task >, but the child elements only contain < SubTaskProperty >. The sub-elements of < SubTaskProperty > are shown in Tab 10.
+
+Tab 10.Subelements in the < SubTaskProperty > element
+
+| Keywords           | Specific to terminal tasks | Meanings                |
+| ------------------ | -------------------------- | ----------------------- |
+| SubTaskState       | ×                          | State of subTasks       |
+| SubTaskType        | ×                          | Type of subTasks        |
+| SubTaskTime        | ×                          | Time of subTasks        |
+| SubTaskCoord       | ×                          | Coord of subTasks       |
+| SubTaskRequirement | ×                          | Requirement of subTasks |
+| SubTaskTarget      | √                          | Target of subTasks      |
+| SubTaskBehavior    | √                          | Behavior of subTasks    |
+
+The values of each element and attribute in < SubTask > are restricted by syntax rules. According to the task Type relationship definition of the metamodel, the type of child tasks is restricted by the type of the parent task. The state value of SubTask is represented by <SubTaskState_value>. The value is of string type and is limited to one of "Allocated" or "Unallocated". The task type of a SubTask is limited by the task type of the Task, so < SubTaskType > includes one of the sub-elements < SubLogistics >, < SubAgriculture >, < SubRescue > or < SubHighwayPatrols >. In addition, the rules of < SubTaskTime >, < SubTaskCoord > and < SubTaskRequirement > are the same as the corresponding syntax rules in < Mission > and < Task >, and will not be introduced in detail here. Some syntax rules for < SubTask > subelements and attributes are shown in Tab 11.
+
+Tab 11. Some syntax rules for < SubTask > subelements and attributes
+
+| Non-terminal          | Symbol | Replacement                                                  |
+| --------------------- | ------ | ------------------------------------------------------------ |
+| < SubTask >           | ::=    | < SubTaskProperty >                                          |
+| < SubTaskProperty >   | ::=    | < SubTaskState >< SubTaskType >< SubTaskTime >  < SubTaskCoord >< SubTaskRequirement >  < SubTaskTarget >< SubTaskBehavior> |
+| <SubTaskState_value>  | ::=    | "Allocated" \| "Unallocated"                                 |
+| <SubTaskType_value>   | ::=    | < SubLogistics > \| < SubAgriculture > \|  < SubRescue > \| < SubHighwayPatrols > |
+| < SubHighwayPatrols > | ::=    | < Road > if <TaskType_value> =  "RoadTask"  \| < Bridge > if <TaskType_value> =  "BridgeTask"  \| < Slope > if <TaskType_value> =  "SlopeTask" |
+| < Road >              | ::=    | " RoadBarrier " \| " RoadGuardarail  " \| " RoadSurface"     |
+| < Bridge >            | ::=    | " BridgeDeck " \| "BridgeBearing " \|  "BridgePier" \| " BridgeJoint" \|"BridgeAbutment" |
+| < Slope >             | ::=    | "SlopeBottom" \| "SlopeSurface" \|  "SlopeDitch"             |
+| < SubTaskTarget >     | ::=    | < TargetLocation >< TargetType >< TargetShape >  < TargetEvent >< TargetSize >< TargetCoords > |
+| < TargetLocation >    | ::=    | < Coord >                                                    |
+| <TargetType_value>    | ::=    | "Point" \| "Line" \|  "Surface" \| "3D"                      |
+| <TargetShape_value>   | ::=    | "Cube" \| "Cylinder"                                         |
+| <TargetEvent_value>   | ::=    | "TAKE_PHOTO" \| "FILM_VIDEO" \|  "LIGHTING" \| < OtherEvents > |
+| < TargetSize >        | ::=    | < CubeSize > if <TargetShape_value > =  "Cube" \|  < CylinderSize > if < TargetShape_value > =  "Cylinder" |
+| < TargetCoords >      | ::=    | < TargetCoord >                                              |
+| < SubTaskBehavior >   | ::=    | < Behavior >+                                                |
+
+Fig 4. XML Schema of SubTask element
+
+<div align="center">
+  <img src="https://github.com/PiedPiper911/ASML/blob/main/image-20240321203126361.png?raw=true">
+</div>
+
+
+
 ### UAV Resource Capability Syntax
 
 #### Resource
 
-A resource is defined in ASML through < Resource>. A < Resource > contains sub-elements < Info>, < State>, < Domain>, < Performance>, < Service>, and < Log>. The XML schema for the Resource element is shown in Figure 4.
+A resource is defined in ASML through < Resource>. A < Resource > contains sub-elements < Info>, < State>, < Domain>, < Performance>, < Service>, and < Log>. The XML schema for the Resource element is shown in Fig 5.
 
-Figure 4. XML Schema for Resource elements
+Fig 5. XML Schema for Resource elements
 
 <div align="center">
   <img src="https://github.com/PiedPiper911/ASML/blob/main/image-20240320202028819.png?raw=true">
@@ -230,9 +279,9 @@ Figure 4. XML Schema for Resource elements
 
 #### Performance
 
-The performance information of a resource is defined in ASML through the < Performance>, which demonstrates different capabilities depending on the UAV resource, and which has one or more sub-elements, as shown in Figure 5. The syntax of each of these tags to take values is mainly in the form of strings or floating point numbers and will not be repeated here.
+The performance information of a resource is defined in ASML through the < Performance>, which demonstrates different capabilities depending on the UAV resource, and which has one or more sub-elements, as shown in Fig 6. The syntax of each of these tags to take values is mainly in the form of strings or floating point numbers and will not be repeated here.
 
-Fig 5. XML structure diagram for resource performance
+Fig 6. XML structure diagram for resource performance
 
 <div align="center">
   <img src="https://github.com/PiedPiper911/ASML/blob/main/image-20240320202331886.png?raw=true">
@@ -242,9 +291,9 @@ Fig 5. XML structure diagram for resource performance
 
 #### Constraint
 
-A constraint is defined in ASML through < Constraint>. Its sub-elements include path points < WayPoints>, < Obstacle>, < NoFlyArea>, < SafeDistance>, and < Weather>. The XML Schema composed of its sub-elements is shown in Figure 6.
+A constraint is defined in ASML through < Constraint>. Its sub-elements include path points < WayPoints>, < Obstacle>, < NoFlyArea>, < SafeDistance>, and < Weather>. The XML Schema composed of its sub-elements is shown in Fig 7.
 
-Figure 6. XML Schema for Constraint Elements
+Fig 7. XML Schema for Constraint Elements
 
 <div align="center">
   <img src="https://github.com/PiedPiper911/ASML/blob/main/image-20240320202750422.png?raw=true">
@@ -254,9 +303,9 @@ Figure 6. XML Schema for Constraint Elements
 
 #### Waypoints
 
-The < Waypoints > contains one or more child elements < Waypoint>, as shown in Figure 7. The < Waypoint > element includes the attributes id, longitude, latitude, and altitude, and has a unique child element, < Connectivity>, which serves as a representation of connectivity with other Waypoints, and takes the value of a string of 0s and 1s, and the length of the number of child elements of < Waypoints>. The syntax rules for the < Waypoints > element and attributes are defined in Table 10.
+The < Waypoints > contains one or more child elements < Waypoint>, as shown in Fig 8. The < Waypoint > element includes the attributes id, longitude, latitude, and altitude, and has a unique child element, < Connectivity>, which serves as a representation of connectivity with other Waypoints, and takes the value of a string of 0s and 1s, and the length of the number of child elements of < Waypoints>. The syntax rules for the < Waypoints > element and attributes are defined in Tab 12.
 
-Tab 10 . Syntax rules for < WayPoints > child elements and attributes
+Tab 12 . Syntax rules for < WayPoints > child elements and attributes
 
 | Non-terminal           | **Symbol** | Replacement                                          |
 | ---------------------- | ---------- | ---------------------------------------------------- |
@@ -266,7 +315,7 @@ Tab 10 . Syntax rules for < WayPoints > child elements and attributes
 | < Connectivity >       | ::=        | < Connectivity_value > (","  < Connectivity_value>)* |
 | < Connectivity_value > | ::=        | "0" \| "1"                                           |
 
-Figure 7 XML Schema for the WayPoints element
+Fig 8 XML Schema for the WayPoints element
 
 <div align="center">
   <img src="https://github.com/PiedPiper911/ASML/blob/main/image-20240320203246363.png?raw=true">
@@ -274,9 +323,9 @@ Figure 7 XML Schema for the WayPoints element
 
 #### Obstacle
 
-The < Obstacle > contains the attributes id, name, and the coordinates longitude and latitude in Coord, and the child elements < minAlt > and < maxAlt>, as shown in Figure 8. Obstacles describes objects in terms of height that the UAV may not penetrate or touch. Where < minAlt > and < maxAlt > are the same as the < Coord_attr > rule defined earlier, taking the value of double precision floating point number double.
+The < Obstacle > contains the attributes id, name, and the coordinates longitude and latitude in Coord, and the child elements < minAlt > and < maxAlt>, as shown in Fig 9. Obstacles describes objects in terms of height that the UAV may not penetrate or touch. Where < minAlt > and < maxAlt > are the same as the < Coord_attr > rule defined earlier, taking the value of double precision floating point number double.
 
-Figure 8 XML Schema for the Obstacle element.
+Fig 9.XML Schema for the Obstacle element.
 
 <div align="center">
   <img src="https://github.com/PiedPiper911/ASML/blob/main/image-20240320203409599.png?raw=true">
@@ -286,9 +335,9 @@ Figure 8 XML Schema for the Obstacle element.
 
 #### NoFlyArea
 
-The no-fly area is represented by the < NoFlyArea > element, whose sub-element composition is shown in Figure 9, with < Circle>, < Rectangle>, and < Polygon > as its optional sub-elements. The sub-elements of polygon < Coords > have at least three coordinates, indicating that it consists of three and more coordinate points. The syntax rules for each child element and attribute of < NoFlyArea > are shown in Table 11.
+The no-fly area is represented by the < NoFlyArea > element, whose sub-element composition is shown in Fig 10, with < Circle>, < Rectangle>, and < Polygon > as its optional sub-elements. The sub-elements of polygon < Coords > have at least three coordinates, indicating that it consists of three and more coordinate points. The syntax rules for each child element and attribute of < NoFlyArea > are shown in Tab 13.
 
-Table 11. Syntax rules for < NoFlyArea > child elements and attributes
+Tab 13 Syntax rules for < NoFlyArea > child elements and attributes
 
 | Non-terminal  | Symbol | Replacement                                  |
 | ------------- | ------ | -------------------------------------------- |
@@ -297,7 +346,7 @@ Table 11. Syntax rules for < NoFlyArea > child elements and attributes
 | < Polygon >   | ::=    | < Coords >                                   |
 | < Coords >    | ::=    | (< Coord>< Coord>)< Coord>+                  |
 
-Figure 9 XML Schema for the NoFlyArea element
+Fig 10. XML Schema for the NoFlyArea element
 
 <div align="center">
   <img src="https://github.com/PiedPiper911/ASML/blob/main/image-20240320203948652.png?raw=true">
@@ -305,18 +354,20 @@ Figure 9 XML Schema for the NoFlyArea element
 
 **SafeDistance**
 
-The safe distance is represented by the < SafeDistance > element, containing the attributes id, name, and the sub-elements minimum safe distance < minDis>, minimum and maximum flight altitude < minAlt>, and < maxAlt>. < minAlt > and < maxAlt > are defined with the same rules as in < Obstacle>, while < minDis > takes the value of a string. The structure of its elements is shown in Figure 10.
+The safe distance is represented by the < SafeDistance > element, containing the attributes id, name, and the sub-elements minimum safe distance < minDis>, minimum and maximum flight altitude < minAlt>, and < maxAlt>. < minAlt > and < maxAlt > are defined with the same rules as in < Obstacle>, while < minDis > takes the value of a string. The structure of its elements is shown in Fig 11.
 
-Figure 10.XML Schema of the SafeDistance element
+Fig 11.XML Schema of the SafeDistance element
 <div align="center">
   <img src="https://github.com/PiedPiper911/ASML/blob/main/image-20240320204331478.png?raw=true">
 </div>
 
 #### Weather
 
-Weather is represented through the < Weather > element with attributes id, name, describe, and type. it contains sub-elements Duration < Duration>, Temperature Range < Temperature>, Covered Area < CoveredArea>, and Wind < Wind>. The value of < Durtaion > needs to be restricted to the ISO8601 date representation, covering the start and end time < DateTime>, connected by the "~" symbol. The value of < Temperature > is in the form of "20℃~30℃", indicating the temperature range. < CoveredArea > is the same as < NoFlyArea>. < Wind > contains sub-elements < WindLevel > and < WindSpeed > with integer and string values respectively. The XML schema for the < Weather > element is shown in Figure 11.
+Weather is represented through the < Weather > element with attributes id, name, describe, and type. it contains sub-elements Duration < Duration>, Temperature Range < Temperature>, Covered Area < CoveredArea>, and Wind < Wind>. The value of < Durtaion > needs to be restricted to the ISO8601 date representation, covering the start and end time < DateTime>, connected by the "~" symbol. The value of < Temperature > is in the form of "20℃~30℃", indicating the temperature range. < CoveredArea > is the same as < NoFlyArea>. < Wind > contains sub-elements < WindLevel > and < WindSpeed > with integer and string values respectively. The XML schema for the < Weather > element is shown in Fig 12.
 
-Figure 11.XML Schema for the Weather Element
+
+
+Fig 12.XML Schema for the Weather Element
 
 <div align="center">
   <img src="https://github.com/PiedPiper911/ASML/blob/main/image-20240320204426904.png?raw=true">
