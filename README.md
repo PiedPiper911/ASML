@@ -290,7 +290,7 @@ The no-fly area is represented by the < NoFlyArea > element, whose sub-element c
 
 Table 11. Syntax rules for < NoFlyArea > child elements and attributes
 
-| non-terminal  | symbol | replacement                                  |
+| Non-terminal  | Symbol | Replacement                                  |
 | ------------- | ------ | -------------------------------------------- |
 | < Rectangle > | ::=    | < Center > (< NE > < SW>) \|  (< NW > < SE>) |
 | < Circle >    | ::=    | < Center>< Radius >                          |
@@ -322,7 +322,368 @@ Figure 11.XML Schema for the Weather Element
   <img src="https://github.com/PiedPiper911/ASML/blob/main/image-20240320204426904.png?raw=true">
 </div>
 
+
+
 ## Conclusion
 
 This document mainly accomplishes the design of the Application Scenario Modeling Language (ASML). Firstly, the main steps of constructing the Application Scenario Modeling Language are elicited based on the design objectives and approach. Secondly formulate the lexical rules including constituent elements, data types and keywords, and define the syntax rules for the three main parts of the scenario mission, UAV resources, and environmental constraints. Finally, the composition of the elements and attributes are described by means of an extensible markup language-based approach, and an XML schema diagram is given to represent the compositional relationships between the elements.
+
+
+
+## Example for ASML
+
+### Highway patrol Mission
+
+This XML file describes the scenario of a highway inspection task, including the time, location, type of the task, and the specific execution of sub-tasks, including inspection and photography tasks for bridges and piers.
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<! -- Example for highway inspection mission -->
+<Mission id="1" name="Highway" describe="Patrols of highway">
+  <MissionProperty>
+    <MissionState>Allocated</MissionState>
+    <MissionType>HighwayPatrols</MissionType>
+    <MissionTime>
+      <StartTime>2023-12-28T22:02:08</StartTime>
+      <EndTime>2023-12-28T23:02:08</EndTime>
+      <EstimatedTime>30min</EstimatedTime>
+    </MissionTime>
+    <MissionCoord>
+      <EnterPoint longitude="10" latitude="60" altitude="60" />
+      <LeavePoint longitude="90" latitude="60" altitude="60" />
+    </MissionCoord>
+    <MissionRelationship />
+    <MissionRequirements />
+  </MissionProperty>
+  <Task id="0" name="task_1" describe="This is a default description">
+    <TaskProperty>
+      <TaskState>Allocated</TaskState>
+      <TaskType>BridgeTask</TaskType>
+      <TaskTime>
+        <StartTime>2023-12-28T22:02:14</StartTime>
+        <EndTime>2023-12-28T23:02:14</EndTime>
+        <EstimatedTime>30min</EstimatedTime>
+      </TaskTime>
+      <TaskCoord>
+        <EnterPoint longitude="10" latitude="60" altitude="60" />
+        <LeavePoint longitude="90" latitude="60" altitude="60" />
+      </TaskCoord>
+      <TaskRelationship />
+      <TaskRequirements />
+    </TaskProperty>
+    <SubTask id="0" name="subTask_1" describe="This is a default description">
+      <SubTaskProperty>
+        <SubTaskState>Allocated</SubTaskState>
+        <SubTaskType>BridgePier</SubTaskType>
+        <SubTaskTime>
+          <StartTime>2023-12-28T22:06:17</StartTime>
+          <EndTime>2023-12-28T23:06:17</EndTime>
+          <EstimatedTime>30min</EstimatedTime>
+        </SubTaskTime>
+        <SubTaskCoord>
+          <EnterPoint longitude="20" latitude="20" altitude="5" />
+          <LeavePoint longitude="40" latitude="20" altitude="5" />
+        </SubTaskCoord>
+        <SubTaskTarget id="0" name="subTask_1">
+          <TargetLocation longitude="20" latitude="20" altitude="5" />
+          <TargetType>3D</TargetType>
+          <TargetShape>cube</TargetShape>
+          <TargetEvent>PHOTO</TargetEvent>
+          <TargetCoords>
+            <TargetCoord longitude="35" latitude="25" altitude="30" />
+            <TargetCoord longitude="35" latitude="20" altitude="30" />
+            <TargetCoord longitude="30" latitude="20" altitude="30" />
+            <TargetCoord longitude="30" latitude="25" altitude="30" />
+            <TargetCoord longitude="35" latitude="25" altitude="0" />
+            <TargetCoord longitude="35" latitude="20" altitude="0" />
+            <TargetCoord longitude="30" latitude="20" altitude="0" />
+            <TargetCoord longitude="30" latitude="25" altitude="0" />
+          </TargetCoords>
+        </SubTaskTarget>
+        <SubTaskBehavior>TAKE_PHOTO</SubTaskBehavior>
+      </SubTaskProperty>
+    </SubTask>
+  </Task>
+</Mission>
+
+```
+
+
+
+### Logistics Mission
+
+This scenario describes a logistics task, divided into two main tasks:
+
+ Task 1: Loading task 
+
+- It starts at 17:21:40 on December 1, 2023, and ends at 18:21:40, and is expected to last 5 minutes. 
+- Load cargo from the location of longitude 108.885473, latitude 34.193698.
+- The cargo is loaded to the location of longitude 108.884085 and latitude 34.193800. 
+- The loading point shape is a cylinder with a height of 0 and a radius of 0. 
+
+Task 2: Transport Task 
+
+- It will start at 17:22 on December 1, 2023, end at 18:22, and is expected to last 20 minutes. 
+- Depart from the location of longitude 108.883882, latitude 34.193825, and transport to the location of longitude 108.870495, latitude 34.193784. 
+- The shape of the transportation line is a cube with a height of 0 and a radius of 0. 
+- This scenario describes the logistics task of loading and transporting goods at a specified time and place.
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<! -- Example of a logistics and transportation scenario task -->
+<Mission id="0" name="mission_0" describe="default">
+  <MissionProperty>
+    <MissionState>Allocated</MissionState>
+    <MissionType>Logistics</MissionType>
+    <MissionTime>
+      <StartTime>2023-12-01T17:21:08</StartTime>
+      <EndTime>2023-12-01T18:21:08</EndTime>
+      <EstimatedTime>30min</EstimatedTime>
+    </MissionTime>
+    <MissionCoord>
+      <EnterPoint longitude="108.885" latitude="34.1938" altitude="10" />
+      <LeavePoint longitude="108.871" latitude="34.1939" altitude="10" />
+    </MissionCoord>
+    <MissionRelationship>
+      <Sequence Tasks="task1,task2" />
+    </MissionRelationship>
+    <MissionRequirements />
+  </MissionProperty>
+  <Task id="0" name="task_1" describe="This is a default description">
+    <TaskProperty>
+      <TaskState>Allocated</TaskState>
+      <TaskType>LoadingTask</TaskType>
+      <TaskTime>
+        <StartTime>2023-12-01T17:21:40</StartTime>
+        <EndTime>2023-12-01T18:21:40</EndTime>
+        <EstimatedTime>5min</EstimatedTime>
+      </TaskTime>
+      <TaskCoord>
+        <EnterPoint longitude="108.885473" latitude="34.193698" altitude="10" />
+        <EnterPoint longitude="108.884085" latitude="34.193800" altitude="10" />
+      </TaskCoord>
+      <TaskRelationship />
+      <TaskRequirements />
+    </TaskProperty>
+    <SubTask id="0" name="load_subtask" describe="This is a default description">
+      <SubTaskProperty>
+        <SubTaskState>Allocated</SubTaskState>
+        <SubTaskType>CargoLoading</SubTaskType>
+        <SubTaskTime>
+          <StartTime>2023-12-01T17:21:40</StartTime>
+          <EndTime>2023-12-01T18:21:40</EndTime>
+          <EstimatedTime>5min</EstimatedTime>
+        </SubTaskTime>
+        <SubTaskCoord>
+          <EnterPoint longitude="108.8854" latitude="34.1936" altitude="10" />
+          <EnterPoint longitude="108.8840" latitude="34.1938" altitude="10" />
+        </SubTaskCoord>
+        <SubTaskTarget id="0" name="load_point">
+          <TargetLocation longitude="108.8840" latitude="34.1938" altitude="10" />
+          <TargetType>point</TargetType>
+          <TargetShape>cylinder</TargetShape>
+          <TargetEvent>LOAD</TargetEvent>
+          <TargetSize>
+            <Height>0.000000</Height>
+            <Radius>0.000000</Radius>
+            <Center>108.885,34.1938,0</Center>
+          </TargetSize>
+          <TargetCoords />
+        </SubTaskTarget>
+        <SubTaskBehavior>LOAD</SubTaskBehavior>
+      </SubTaskProperty>
+    </SubTask>
+  </Task>
+  <Task id="1" name="task_2" describe="This is a default description">
+    <TaskProperty>
+      <TaskState>Allocated</TaskState>
+      <TaskType>TransportTask</TaskType>
+      <TaskTime>
+        <StartTime>2023-12-01T17:22:00</StartTime>
+        <EndTime>2023-12-01T18:22:00</EndTime>
+        <EstimatedTime>20min</EstimatedTime>
+      </TaskTime>
+      <TaskCoord>
+        <EnterPoint longitude="108.883882" latitude="34.193825" altitude="10" />
+        <LeavePoint longitude="34.193786" latitude="108.883532" altitude="10" />
+      </TaskCoord>
+      <TaskRelationship />
+      <TaskRequirements />
+    </TaskProperty>
+    <SubTask id="1" name="transport_subtask" describe="This is a default description">
+      <SubTaskProperty>
+        <SubTaskState>Allocated</SubTaskState>
+        <SubTaskType>CargoTransport</SubTaskType>
+        <SubTaskTime>
+          <StartTime>2023-12-01T17:21:40</StartTime>
+          <EndTime>2023-12-01T18:21:40</EndTime>
+          <EstimatedTime>20min</EstimatedTime>
+        </SubTaskTime>
+        <SubTaskCoord>
+          <EnterPoint longitude="108.883224" latitude="34.193889" altitude="10" />
+          <EnterPoint longitude="108.870495" latitude="34.193784" altitude="10" />
+        </SubTaskCoord>
+        <SubTaskTarget id="1" name="transport_line">
+          <TargetLocation longitude="108.870495" latitude="34.193784" altitude="10" />
+          <TargetType>line</TargetType>
+          <TargetShape>cube</TargetShape>
+          <TargetEvent>TRANSPORT</TargetEvent>
+          <TargetSize>
+            <Height>0.000000</Height>
+            <Radius>0.000000</Radius>
+            <Center>108.870495,34.193784,10</Center>
+          </TargetSize>
+          <TargetCoords />
+        </SubTaskTarget>
+        <SubTaskBehavior>TRANSPORT</SubTaskBehavior>
+      </SubTaskProperty>
+    </SubTask>
+  </Task>
+</Mission>
+```
+
+
+
+### Resource
+
+This XML file generally describes a resource, which is a drone. It provides basic information, status, domain, performance parameters, service time and other information of resources. The performance parameters include mobility, perception, communication, load capacity and endurance. These parameters cover the resource’s capabilities in movement, perception, communication, carrying payloads and continuous flight. The log information of the resource is also recorded, including the recording time and related remarks.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<Resource>
+  <Info id="1" name="example" type="test" description="this is an example" />
+  <State>FullLoad</State>
+  <Domain>Logistics, Agriculture, Rescue</Domain>
+  <Perfomance>
+    <MoveAbility>
+      <maxAscendingSpeed>16.000000</maxAscendingSpeed>
+      <maxDescendingSpeed>23.000000</maxDescendingSpeed>
+      <maxHorizontalSpeed>25.000000</maxHorizontalSpeed>
+      <maxWindResistance>12</maxWindResistance>
+      <maxTakeoffAltitude>1000</maxTakeoffAltitude>
+      <maxTiltAngle>30.0</maxTiltAngle>
+      <maxRotationSpeed>15</maxRotationSpeed>
+      <maxHoveringTime>30min</maxHoveringTime>
+    </MoveAbility>
+    <SenseAbility>
+      <senseAbilityType>
+        MonocularVision
+      </senseAbilityType>
+      <obstacleAvoidanceDirection>
+        <FrontView SenseDistance="0.5-20" DetectableRange="5.0" AvoidanceSpeed="10.0" FOV="(45,60)" />
+        <RearView SenseDistance="0.5-20" AvoidanceSpeed="10.0" FOV="(60,60)" />
+        <SideView SenseDistance="0.5-20" AvoidanceSpeed="10.0" FOV="(30,90)" />
+      </obstacleAvoidanceDirection>
+    </SenseAbility>
+    <CommunicationAbility>
+      <GNSS>GPS+BeiDou</GNSS>
+      <workingFrequency>5.8GHz</workingFrequency>
+      <maxSignalRange>10.5km</maxSignalRange>
+      <imageTransmission>
+        <imageQuality>1080P@30fps</imageQuality>
+        <imageDelay>100ms</imageDelay>
+      </imageTransmission>
+    </CommunicationAbility>
+    <PayloadAbility>
+      <emptyWeight>2.5kg</emptyWeight>
+      <takeoffWeight>4kg</takeoffWeight>
+      <maxPayload>1.5kg</maxPayload>
+      <maxPayloadEndurance>20min</maxPayloadEndurance>
+      <gimbalQuantity>1</gimbalQuantity>
+    </PayloadAbility>
+    <EnduranceAbility>
+      <maxFilghtRange>10.5km</maxFilghtRange>
+      <flightTime>25.3min</flightTime>
+      <currentFlightTime>20min</currentFlightTime>
+      <remainingFlightTime>5.3min</remainingFlightTime>
+      <workingTemperature>25℃</workingTemperature>
+      <protection>ip45</protection>
+    </EnduranceAbility>
+  </Perfomance>
+  <Service Number="1" Time="10:00:00-12:00:00" />
+  <Log Time="2023-12-28T10:30:00" Note="Started mission." />
+</Resource>
+
+```
+
+### Constraint
+
+This XML describes a series of constraints that can be used in drone flights or similar applications:
+
+- WayPoints elements: Describes a series of waypoints, each with a unique ID, longitude, latitude, and altitude, as well as connectivity to other waypoints. Obstacle elements:
+
+- Obstacle elements: Describes the obstacle, including its ID, name, location, and minimum and maximum height. NoFlyArea element
+
+- NoFlyArea element: No-fly zones are described, including the location and height range of polygonal, rectangular, and circular no-fly zones.
+
+- SafeDistance element: Safety distances are described, including minimum distances and minimum and maximum heights. Weather element:
+
+- Weather element:Weather conditions are described, including parameters such as weather type, duration, temperature range, coverage area, and wind speed.
+
+   These constraints can be used for flight path planning, flight area restrictions and flight condition judgment to ensure safety and compliance during flight.
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<Constraint>
+    <WayPoints>
+       <WayPoint id="WP001" longitude="108.6970" latitude="34.1297" altitude="100">
+            <Connectivity>0,1,0,1</Connectivity>
+        </WayPoint>
+        <WayPoint id="WP002" longitude="108.7553" latitude="34.1538" altitude="150">
+            <Connectivity>1,0,0,1</Connectivity>
+        </WayPoint>
+        <WayPoint id="WP003" longitude="108.7972" latitude="34.1720" altitude="200">
+            <Connectivity>0,0,0,0</Connectivity>
+        </WayPoint>
+        <WayPoint id="WP004" longitude="108.8340" latitude="34.1974" altitude="250">
+            <Connectivity>1,1,0,0</Connectivity>
+        </WayPoint>
+    </WayPoints>
+    <Obstacle id="1" name="obstacle1" longitude="108.7723" latitude="34.1617">
+        <minAlt>10.0</minAlt>
+        <maxAlt>20.0</maxAlt>
+    </Obstacle>
+    <NoFlyArea>
+        <Polygon id="p1" name="Polygon 1" minAlt="10" maxAlt="50">
+            <Coords>
+                <Coord longitude="108.6935" latitude="34.1881" altitude="20" />
+                <Coord longitude="108.8253" latitude="34.1940" altitude="25" />
+                <Coord longitude="108.8217" latitude="34.1145" altitude="30" />
+                <Coord longitude="108.6904" latitude="34.1060" altitude="20" />
+            </Coords>
+        </Polygon>
+        <Rectangle id="01 " name="Rect1" minAlt="10.5" maxAlt="50.2">
+            <Center longitude="108.75" latitude="34.1470" altitude="25.6789" />
+            <NE longitude="108.7328" latitude="34.1614" />
+            <SW longitude="108.7691" latitude="34.1335" />
+        </Rectangle>
+        <Circle id="c1" name="Circle 1" minAlt="10" maxAlt="50">
+            <Center longitude="108.7437" latitude="34.1434" altitude="20" />
+            <Radius>25</Radius>
+        </Circle>
+    </NoFlyArea>
+    <SafeDistance id="sd1" name="Safe Zone">
+        <minDis>10.0</minDis>
+        <minAltitude>100.0</minAltitude>
+        <maxAltitude>200.0</maxAltitude>
+    </SafeDistance>
+    <Weather id="w001" name="Sunny" describe="Clear blue sky" type="heat">
+        <Duration>2023-12-28T08:00:00~2023-12-28T18:00:00</Duration>
+        <Temperature>20°C~30°C</Temperature>
+        <CoveredArea>
+            <Rectangle id="r001" name="City" minAlt="0" maxAlt="100">
+                <Center longitude="108.8000" latitude="34.1748" altitude="0" />
+                <NE longitude="108.7860" latitude="34.1784" />
+                <SW longitude="108.8064" latitude="34.1675" />
+            </Rectangle>
+        </CoveredArea>
+        <Wind>
+            <WindLevel>5</WindLevel>
+            <WindSpeed>20.3m/s</WindSpeed>
+        </Wind>
+    </Weather>
+</Constraint>
+```
+
+
 
